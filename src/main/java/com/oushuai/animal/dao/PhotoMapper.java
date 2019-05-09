@@ -6,11 +6,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface PhotoMapper {
-    long countByExample(PhotoExample example);
+    int countByExample(PhotoExample example);
 
     int deleteByExample(PhotoExample example);
 
-    int deleteByPrimaryKey(String photoId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Photo record);
 
@@ -18,11 +18,7 @@ public interface PhotoMapper {
 
     List<Photo> selectByExample(PhotoExample example);
 
-    Photo selectByPrimaryKey(String photoId);
-
-    List<Photo> selectByExampleWithAlbum(PhotoExample example);
-
-    Photo selectByPrimaryKeyWithAlbum(String photoId);
+    Photo selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") Photo record, @Param("example") PhotoExample example);
 

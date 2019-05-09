@@ -3,50 +3,40 @@ package com.oushuai.animal.bean;
 import java.util.Date;
 
 public class Photo {
-    private String photoId;
+    private Integer id;
+
+    private String photoName;
 
     private String photoUrl;
 
     private Integer albumId;
 
-    private String photoName;
-
     private Date photoDate;
-
-    private String recommend;
 
     private Integer readtimes;
 
-    //查询照片的同时查询相册名字
-    private Album album;
+    private Byte isRecommend;
 
-    public Album getAlbum() {
-        return album;
+    private Byte isDelete;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setAlbum(Album album) {
-        this.album = album;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public  Photo(){
-
-    }
-    public Photo(String photoId, String photoUrl, Integer albumId, String photoName, Date photoDate, String recommend, Integer readtimes) {
-        this.photoId = photoId;
-        this.photoUrl = photoUrl;
-        this.albumId = albumId;
-        this.photoName = photoName;
-        this.photoDate = photoDate;
-        this.recommend = recommend;
-        this.readtimes = readtimes;
+    public String getPhotoName() {
+        return photoName;
     }
 
-    public String getPhotoId() {
-        return photoId;
-    }
-
-    public void setPhotoId(String photoId) {
-        this.photoId = photoId == null ? null : photoId.trim();
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName == null ? null : photoName.trim();
     }
 
     public String getPhotoUrl() {
@@ -65,14 +55,6 @@ public class Photo {
         this.albumId = albumId;
     }
 
-    public String getPhotoName() {
-        return photoName;
-    }
-
-    public void setPhotoName(String photoName) {
-        this.photoName = photoName == null ? null : photoName.trim();
-    }
-
     public Date getPhotoDate() {
         return photoDate;
     }
@@ -81,19 +63,43 @@ public class Photo {
         this.photoDate = photoDate;
     }
 
-    public String getRecommend() {
-        return recommend;
-    }
-
-    public void setRecommend(String recommend) {
-        this.recommend = recommend == null ? null : recommend.trim();
-    }
-
     public Integer getReadtimes() {
         return readtimes;
     }
 
     public void setReadtimes(Integer readtimes) {
         this.readtimes = readtimes;
+    }
+
+    public Byte getIsRecommend() {
+        return isRecommend;
+    }
+
+    public void setIsRecommend(Byte isRecommend) {
+        this.isRecommend = isRecommend;
+    }
+
+    public Byte getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Byte isDelete) {
+        this.isDelete = isDelete;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -16,27 +16,7 @@ Date: 2019-05-06 23:32:59
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
--- Table structure for album
--- ----------------------------
-DROP TABLE IF EXISTS `album`;
-CREATE TABLE `album` (
-  `album_id` int(255) NOT NULL AUTO_INCREMENT,
-  `album_name` varchar(255) NOT NULL,
-  `album_url` varchar(255) DEFAULT NULL,
-  `cate_id` int(11) DEFAULT NULL,
-  `photo_count` int(11) DEFAULT NULL,
-  `album_create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `album_update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`album_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of album
--- ----------------------------
-INSERT INTO `album` VALUES ('2', '小猫', 'www.baidu.com', null, null, null, null);
-INSERT INTO `album` VALUES ('3', 'dog', '', null, null, null, null);
-INSERT INTO `album` VALUES ('4', 'fish', '', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for category
@@ -47,26 +27,53 @@ CREATE TABLE `category` (
   `cate_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of category
--- ----------------------------
+DROP TABLE IF EXISTS `album`;
+CREATE TABLE `album` (
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `album_name` varchar(64) NOT NULL DEFAULT '' COMMENT '相册名称',
+  `album_url` varchar(64) NOT NULL DEFAULT '' COMMENT '相册URl',
+  `cate_id` INT(11) NOT NULL DEFAULT 0 COMMENT '分类ID',
+  `user_id` INT(11) NOT NULL DEFAULT 0 COMMENT '用户ID（这个相册属于哪个用户）',
+  `photo_count` INT(11) NOT NULL DEFAULT 0 COMMENT '照片数量',
+  `sort_no` tinyint(4) unsigned DEFAULT 0 COMMENT '展示顺序',
+  `status` tinyint(4) unsigned DEFAULT 1 COMMENT '状态；0 禁用；1可用',
+  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='相册表';
 
--- ----------------------------
--- Table structure for photo
--- ----------------------------
+
 DROP TABLE IF EXISTS `photo`;
 CREATE TABLE `photo` (
-  `photo_id` varchar(255) NOT NULL,
-  `photo_url` varchar(255) DEFAULT NULL,
-  `album_id` int(255) DEFAULT NULL,
-  `photo_name` varchar(255) DEFAULT NULL,
-  `photo_date` datetime DEFAULT NULL,
-  `recommend` varchar(255) DEFAULT NULL,
-  `readTimes` int(11) DEFAULT NULL,
-  PRIMARY KEY (`photo_id`),
-  KEY `fk_photo_album` (`album_id`),
-  CONSTRAINT `fk_photo_album` FOREIGN KEY (`album_id`) REFERENCES `album` (`album_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `photo_name` varchar(64) NOT NULL DEFAULT '' COMMENT '照片名称',
+  `photo_url` varchar(64) NOT NULL DEFAULT '' COMMENT '照片URl',
+  `album_id` INT(11) NOT NULL DEFAULT 0 COMMENT '相册ID',
+  `photo_date` TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '照片拍摄时间',
+  `readTimes` int(11) unsigned DEFAULT 0 COMMENT '预览次数',
+  `is_recommend` tinyint(4) unsigned DEFAULT 1 COMMENT '是否推荐 0 否，1是',
+  `is_delete` tinyint(4) unsigned DEFAULT 1 COMMENT '是否删除；0 删除；1可用',
+  `create_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='照片信息表';
+
+
+CREATE TABLE `sys_user` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(32) NOT NULL COMMENT '账号',
+  `password` varchar(64) NOT NULL COMMENT '密码',
+  `real_name` varchar(32) NOT NULL COMMENT '真实姓名',
+  `phone` varchar(20) NOT NULL DEFAULT '' COMMENT '手机号',
+  `photo_url` varchar(128) NOT NULL DEFAULT '' COMMENT '照片链接',
+  `is_delete` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '是否删除：0不删除，1删除',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_username` (`user_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+
 
 -- ----------------------------
 -- Records of photo
