@@ -11,7 +11,7 @@
 		<!-- 配置数据库连接 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://localhost:3306/animal" userId="root"
-			password="root">
+			password="1234">
 		</jdbcConnection>
 
 		<javaTypeResolver>
@@ -38,7 +38,8 @@
 
 
 		<!-- table指定每个表的生成策略 -->
-		<table tableName="album" domainObjectName="Album"></table>
-		<table tableName="photo" domainObjectName="Photo"></table>
+		<!--<table tableName="album" domainObjectName="Album"></table>
+		<table tableName="photo" domainObjectName="Photo"></table>-->
+		<table tableName="category" domainObjectName="Category"></table>
 	</context>
 </generatorConfiguration>
