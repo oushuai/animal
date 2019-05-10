@@ -1,29 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.oushuai.animal.dao.CategoryMapper">
-  <resultMap id="BaseResultMap" type="com.oushuai.animal.bean.Category">
-    <result column="cate_id" jdbcType="INTEGER" property="cateId" />
-    <result column="cate_name" jdbcType="VARCHAR" property="cateName" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oushuai.animal.dao.CategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.oushuai.animal.bean.Category" >
+    <result column="cate_id" property="cateId" jdbcType="INTEGER" />
+    <result column="cate_name" property="cateName" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -34,25 +34,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -63,213 +63,77 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     cate_id, cate_name
   </sql>
-  <select id="selectByExample" parameterType="com.oushuai.animal.bean.CategoryExample" resultMap="BaseResultMap">
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oushuai.animal.bean.CategoryExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
     from category
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.oushuai.animal.bean.CategoryExample">
+  <delete id="deleteByExample" parameterType="com.oushuai.animal.bean.CategoryExample" >
     delete from category
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.oushuai.animal.bean.Category">
+  <insert id="insert" parameterType="com.oushuai.animal.bean.Category" >
     insert into category (cate_id, cate_name)
     values (#{cateId,jdbcType=INTEGER}, #{cateName,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.oushuai.animal.bean.Category">
+  <insert id="insertSelective" parameterType="com.oushuai.animal.bean.Category" >
     insert into category
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="cateId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cateId != null" >
         cate_id,
       </if>
-      <if test="cateName != null">
+      <if test="cateName != null" >
         cate_name,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="cateId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cateId != null" >
         #{cateId,jdbcType=INTEGER},
       </if>
-      <if test="cateName != null">
+      <if test="cateName != null" >
         #{cateName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.oushuai.animal.bean.CategoryExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.oushuai.animal.bean.CategoryExample" resultType="java.lang.Integer" >
     select count(*) from category
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map" >
     update category
-    <set>
-      <if test="record.cateId != null">
+    <set >
+      <if test="record.cateId != null" >
         cate_id = #{record.cateId,jdbcType=INTEGER},
       </if>
-      <if test="record.cateName != null">
+      <if test="record.cateName != null" >
         cate_name = #{record.cateName,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByExample" parameterType="map" >
     update category
     set cate_id = #{record.cateId,jdbcType=INTEGER},
       cate_name = #{record.cateName,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <resultMap id="BaseResultMap" type="com.oushuai.animal.bean.Category">
-    <result column="cate_id" jdbcType="INTEGER" property="cateId" />
-    <result column="cate_name" jdbcType="VARCHAR" property="cateName" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    cate_id, cate_name
-  </sql>
-  <select id="selectByExample" parameterType="com.oushuai.animal.bean.CategoryExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from category
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <delete id="deleteByExample" parameterType="com.oushuai.animal.bean.CategoryExample">
-    delete from category
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.oushuai.animal.bean.Category">
-    insert into category (cate_id, cate_name)
-    values (#{cateId,jdbcType=INTEGER}, #{cateName,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.oushuai.animal.bean.Category">
-    insert into category
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="cateId != null">
-        cate_id,
-      </if>
-      <if test="cateName != null">
-        cate_name,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="cateId != null">
-        #{cateId,jdbcType=INTEGER},
-      </if>
-      <if test="cateName != null">
-        #{cateName,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.oushuai.animal.bean.CategoryExample" resultType="java.lang.Long">
-    select count(*) from category
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update category
-    <set>
-      <if test="record.cateId != null">
-        cate_id = #{record.cateId,jdbcType=INTEGER},
-      </if>
-      <if test="record.cateName != null">
-        cate_name = #{record.cateName,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update category
-    set cate_id = #{record.cateId,jdbcType=INTEGER},
-      cate_name = #{record.cateName,jdbcType=VARCHAR}
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
