@@ -1,6 +1,12 @@
 package com.oushuai.animal.service;
 
+import com.oushuai.animal.bean.SysUser;
+import com.oushuai.animal.bean.SysUserExample;
+import com.oushuai.animal.dao.SysUserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @className: SysUserService
@@ -11,4 +17,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysUserService {
 
+    @Autowired
+    private SysUserMapper sysUserMapper;
+
+    public List<SysUser> list() {
+        return sysUserMapper.selectByExample(new SysUserExample());
+    }
 }

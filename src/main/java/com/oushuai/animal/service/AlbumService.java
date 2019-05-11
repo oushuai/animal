@@ -35,7 +35,14 @@ public class AlbumService {
         int update = albumMapper.updateByPrimaryKeySelective(album);
         return update;
     }
-
+    /**
+     * 获取相册详情
+     *
+     * @return
+     */
+    public void del(int albumId) {
+        albumMapper.deleteByPrimaryKey(albumId);
+    }
 
     /**
      * 获取相册详情
