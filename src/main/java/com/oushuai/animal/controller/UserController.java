@@ -29,7 +29,7 @@ public class UserController {
         model.addAttribute("list",sysUserService.list());
         return "album/list";
     }
-    @GetMapping("/list")
+    @GetMapping("/list1")
     public Msg list(){
         Msg msg=new Msg();
         List<SysUser> list = sysUserService.list();

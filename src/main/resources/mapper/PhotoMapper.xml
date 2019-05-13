@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oushuai.animal.dao.PhotoMapper" >
   <resultMap id="BaseResultMap" type="com.oushuai.animal.bean.Photo" >
-    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="photo_id" property="id" jdbcType="INTEGER" />
     <result column="photo_name" property="photoName" jdbcType="VARCHAR" />
     <result column="photo_url" property="photoUrl" jdbcType="VARCHAR" />
     <result column="album_id" property="albumId" jdbcType="INTEGER" />
     <result column="photo_date" property="photoDate" jdbcType="TIMESTAMP" />
-    <result column="readTimes" property="readtimes" jdbcType="INTEGER" />
+    <result column="read_times" property="readtimes" jdbcType="INTEGER" />
     <result column="is_recommend" property="isRecommend" jdbcType="TINYINT" />
     <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, photo_name, photo_url, album_id, photo_date, readTimes, is_recommend, is_delete, 
+   photo_id, photo_name, photo_url, album_id, photo_date, read_times, is_recommend, is_delete,
     create_time, update_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oushuai.animal.bean.PhotoExample" >
@@ -106,8 +106,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.oushuai.animal.bean.Photo" >
-    insert into photo (id, photo_name, photo_url, 
-      album_id, photo_date, readTimes, 
+    insert into photo (photo_id, photo_name, photo_url,
+      album_id, photo_date, read_times
+      ,
       is_recommend, is_delete, create_time, 
       update_time)
     values (#{id,jdbcType=INTEGER}, #{photoName,jdbcType=VARCHAR}, #{photoUrl,jdbcType=VARCHAR}, 
@@ -119,7 +120,7 @@
     insert into photo
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        id,
+        photo_id,
       </if>
       <if test="photoName != null" >
         photo_name,
@@ -134,7 +135,7 @@
         photo_date,
       </if>
       <if test="readtimes != null" >
-        readTimes,
+        read_times,
       </if>
       <if test="isRecommend != null" >
         is_recommend,
@@ -207,7 +208,7 @@
         photo_date = #{record.photoDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.readtimes != null" >
-        readTimes = #{record.readtimes,jdbcType=INTEGER},
+        read_times = #{record.readtimes,jdbcType=INTEGER},
       </if>
       <if test="record.isRecommend != null" >
         is_recommend = #{record.isRecommend,jdbcType=TINYINT},
@@ -228,12 +229,12 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update photo
-    set id = #{record.id,jdbcType=INTEGER},
+    set photo_id = #{record.id,jdbcType=INTEGER},
       photo_name = #{record.photoName,jdbcType=VARCHAR},
       photo_url = #{record.photoUrl,jdbcType=VARCHAR},
       album_id = #{record.albumId,jdbcType=INTEGER},
       photo_date = #{record.photoDate,jdbcType=TIMESTAMP},
-      readTimes = #{record.readtimes,jdbcType=INTEGER},
+    read_times = #{record.readtimes,jdbcType=INTEGER},
       is_recommend = #{record.isRecommend,jdbcType=TINYINT},
       is_delete = #{record.isDelete,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -258,7 +259,7 @@
         photo_date = #{photoDate,jdbcType=TIMESTAMP},
       </if>
       <if test="readtimes != null" >
-        readTimes = #{readtimes,jdbcType=INTEGER},
+        read_times = #{readtimes,jdbcType=INTEGER},
       </if>
       <if test="isRecommend != null" >
         is_recommend = #{isRecommend,jdbcType=TINYINT},
@@ -273,7 +274,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where photo_id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.oushuai.animal.bean.Photo" >
     update photo
@@ -281,7 +282,7 @@
       photo_url = #{photoUrl,jdbcType=VARCHAR},
       album_id = #{albumId,jdbcType=INTEGER},
       photo_date = #{photoDate,jdbcType=TIMESTAMP},
-      readTimes = #{readtimes,jdbcType=INTEGER},
+      read_times = #{readtimes,jdbcType=INTEGER},
       is_recommend = #{isRecommend,jdbcType=TINYINT},
       is_delete = #{isDelete,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

@@ -39,9 +39,9 @@
 
 
 		<!-- table指定每个表的生成策略 -->
-		<table tableName="album" domainObjectName="Album"></table>
+		<!--<table tableName="album" domainObjectName="Album"></table>-->
 		<table tableName="photo" domainObjectName="Photo"></table>
-		<table tableName="category" domainObjectName="Category"></table>
-		<table tableName="sys_user" domainObjectName="SysUser"></table>
+		<!--<table tableName="category" domainObjectName="Category"></table>-->
+		<!--<table tableName="sys_user" domainObjectName="SysUser"></table>-->
 	</context>
 </generatorConfiguration>

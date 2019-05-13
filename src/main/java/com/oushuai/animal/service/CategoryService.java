@@ -27,7 +27,7 @@ public class CategoryService {
     public int add(String cateName){
         Category category=new Category();
         category.setCateName(cateName);
-        return categoryMapper.insert(category);
+        return categoryMapper.insertSelective(category);
     }
     public int delete(int cateId){
         CategoryExample example=new CategoryExample();

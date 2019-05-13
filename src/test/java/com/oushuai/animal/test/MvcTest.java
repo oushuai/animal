@@ -49,7 +49,7 @@ public class MvcTest {
         List<Photo> list=pi.getList();
 
         for(Photo photo:list){
-            System.out.println("photoId "+photo.getPhotoId());
+            System.out.println("photoId "+photo.getId());
         }
     }
 }

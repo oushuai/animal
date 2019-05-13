@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  *
  */
-@RequestMapping("/admin/album")
+@RequestMapping("/album")
 @Controller
 public class AlbumController {
     @Autowired
