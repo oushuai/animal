@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oushuai.animal.dao.NewMapper" >
+  <resultMap id="BaseResultMap" type="com.oushuai.animal.bean.New" >
+    <id column="new_id" property="newId" jdbcType="INTEGER" />
+    <result column="new_title" property="newTitle" jdbcType="VARCHAR" />
+    <result column="new_content" property="newContent" jdbcType="VARCHAR" />
+    <result column="new_photo_id1" property="newPhotoId1" jdbcType="VARCHAR" />
+    <result column="new_photo_id2" property="newPhotoId2" jdbcType="VARCHAR" />
+    <result column="new_photo_id3" property="newPhotoId3" jdbcType="VARCHAR" />
+    <result column="new_key_words" property="newKeyWords" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    new_id, new_title, new_content, new_photo_id1, new_photo_id2, new_photo_id3, new_key_words
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oushuai.animal.bean.NewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from new
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from new
+    where new_id = #{newId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from new
+    where new_id = #{newId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.oushuai.animal.bean.NewExample" >
+    delete from new
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.oushuai.animal.bean.New" >
+    insert into new (new_id, new_title, new_content, 
+      new_photo_id1, new_photo_id2, new_photo_id3, 
+      new_key_words)
+    values (#{newId,jdbcType=INTEGER}, #{newTitle,jdbcType=VARCHAR}, #{newContent,jdbcType=VARCHAR}, 
+      #{newPhotoId1,jdbcType=VARCHAR}, #{newPhotoId2,jdbcType=VARCHAR}, #{newPhotoId3,jdbcType=VARCHAR}, 
+      #{newKeyWords,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oushuai.animal.bean.New" >
+    insert into new
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="newId != null" >
+        new_id,
+      </if>
+      <if test="newTitle != null" >
+        new_title,
+      </if>
+      <if test="newContent != null" >
+        new_content,
+      </if>
+      <if test="newPhotoId1 != null" >
+        new_photo_id1,
+      </if>
+      <if test="newPhotoId2 != null" >
+        new_photo_id2,
+      </if>
+      <if test="newPhotoId3 != null" >
+        new_photo_id3,
+      </if>
+      <if test="newKeyWords != null" >
+        new_key_words,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="newId != null" >
+        #{newId,jdbcType=INTEGER},
+      </if>
+      <if test="newTitle != null" >
+        #{newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newContent != null" >
+        #{newContent,jdbcType=VARCHAR},
+      </if>
+      <if test="newPhotoId1 != null" >
+        #{newPhotoId1,jdbcType=VARCHAR},
+      </if>
+      <if test="newPhotoId2 != null" >
+        #{newPhotoId2,jdbcType=VARCHAR},
+      </if>
+      <if test="newPhotoId3 != null" >
+        #{newPhotoId3,jdbcType=VARCHAR},
+      </if>
+      <if test="newKeyWords != null" >
+        #{newKeyWords,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.oushuai.animal.bean.NewExample" resultType="java.lang.Integer" >
+    select count(*) from new
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update new
+    <set >
+      <if test="record.newId != null" >
+        new_id = #{record.newId,jdbcType=INTEGER},
+      </if>
+      <if test="record.newTitle != null" >
+        new_title = #{record.newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newContent != null" >
+        new_content = #{record.newContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newPhotoId1 != null" >
+        new_photo_id1 = #{record.newPhotoId1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newPhotoId2 != null" >
+        new_photo_id2 = #{record.newPhotoId2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newPhotoId3 != null" >
+        new_photo_id3 = #{record.newPhotoId3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newKeyWords != null" >
+        new_key_words = #{record.newKeyWords,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update new
+    set new_id = #{record.newId,jdbcType=INTEGER},
+      new_title = #{record.newTitle,jdbcType=VARCHAR},
+      new_content = #{record.newContent,jdbcType=VARCHAR},
+      new_photo_id1 = #{record.newPhotoId1,jdbcType=VARCHAR},
+      new_photo_id2 = #{record.newPhotoId2,jdbcType=VARCHAR},
+      new_photo_id3 = #{record.newPhotoId3,jdbcType=VARCHAR},
+      new_key_words = #{record.newKeyWords,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oushuai.animal.bean.New" >
+    update new
+    <set >
+      <if test="newTitle != null" >
+        new_title = #{newTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="newContent != null" >
+        new_content = #{newContent,jdbcType=VARCHAR},
+      </if>
+      <if test="newPhotoId1 != null" >
+        new_photo_id1 = #{newPhotoId1,jdbcType=VARCHAR},
+      </if>
+      <if test="newPhotoId2 != null" >
+        new_photo_id2 = #{newPhotoId2,jdbcType=VARCHAR},
+      </if>
+      <if test="newPhotoId3 != null" >
+        new_photo_id3 = #{newPhotoId3,jdbcType=VARCHAR},
+      </if>
+      <if test="newKeyWords != null" >
+        new_key_words = #{newKeyWords,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where new_id = #{newId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oushuai.animal.bean.New" >
+    update new
+    set new_title = #{newTitle,jdbcType=VARCHAR},
+      new_content = #{newContent,jdbcType=VARCHAR},
+      new_photo_id1 = #{newPhotoId1,jdbcType=VARCHAR},
+      new_photo_id2 = #{newPhotoId2,jdbcType=VARCHAR},
+      new_photo_id3 = #{newPhotoId3,jdbcType=VARCHAR},
+      new_key_words = #{newKeyWords,jdbcType=VARCHAR}
+    where new_id = #{newId,jdbcType=INTEGER}
+  </update>
+</mapper>

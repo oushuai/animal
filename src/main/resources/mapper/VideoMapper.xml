@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oushuai.animal.dao.VideoMapper" >
+  <resultMap id="BaseResultMap" type="com.oushuai.animal.bean.Video" >
+    <id column="video_id" property="videoId" jdbcType="INTEGER" />
+    <result column="video_name" property="videoName" jdbcType="VARCHAR" />
+    <result column="video_url" property="videoUrl" jdbcType="VARCHAR" />
+    <result column="album_id" property="albumId" jdbcType="INTEGER" />
+    <result column="video_date" property="videoDate" jdbcType="TIMESTAMP" />
+    <result column="recommend" property="recommend" jdbcType="VARCHAR" />
+    <result column="read_times" property="readTimes" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    video_id, video_name, video_url, album_id, video_date, recommend, read_times
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.oushuai.animal.bean.VideoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from video
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from video
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.oushuai.animal.bean.VideoExample" >
+    delete from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.oushuai.animal.bean.Video" >
+    insert into video (video_id, video_name, video_url, 
+      album_id, video_date, recommend, 
+      read_times)
+    values (#{videoId,jdbcType=INTEGER}, #{videoName,jdbcType=VARCHAR}, #{videoUrl,jdbcType=VARCHAR}, 
+      #{albumId,jdbcType=INTEGER}, #{videoDate,jdbcType=TIMESTAMP}, #{recommend,jdbcType=VARCHAR}, 
+      #{readTimes,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.oushuai.animal.bean.Video" >
+    insert into video
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="videoId != null" >
+        video_id,
+      </if>
+      <if test="videoName != null" >
+        video_name,
+      </if>
+      <if test="videoUrl != null" >
+        video_url,
+      </if>
+      <if test="albumId != null" >
+        album_id,
+      </if>
+      <if test="videoDate != null" >
+        video_date,
+      </if>
+      <if test="recommend != null" >
+        recommend,
+      </if>
+      <if test="readTimes != null" >
+        read_times,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="videoId != null" >
+        #{videoId,jdbcType=INTEGER},
+      </if>
+      <if test="videoName != null" >
+        #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null" >
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="albumId != null" >
+        #{albumId,jdbcType=INTEGER},
+      </if>
+      <if test="videoDate != null" >
+        #{videoDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recommend != null" >
+        #{recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="readTimes != null" >
+        #{readTimes,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.oushuai.animal.bean.VideoExample" resultType="java.lang.Integer" >
+    select count(*) from video
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update video
+    <set >
+      <if test="record.videoId != null" >
+        video_id = #{record.videoId,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoName != null" >
+        video_name = #{record.videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.videoUrl != null" >
+        video_url = #{record.videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.albumId != null" >
+        album_id = #{record.albumId,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoDate != null" >
+        video_date = #{record.videoDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recommend != null" >
+        recommend = #{record.recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="record.readTimes != null" >
+        read_times = #{record.readTimes,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update video
+    set video_id = #{record.videoId,jdbcType=INTEGER},
+      video_name = #{record.videoName,jdbcType=VARCHAR},
+      video_url = #{record.videoUrl,jdbcType=VARCHAR},
+      album_id = #{record.albumId,jdbcType=INTEGER},
+      video_date = #{record.videoDate,jdbcType=TIMESTAMP},
+      recommend = #{record.recommend,jdbcType=VARCHAR},
+      read_times = #{record.readTimes,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.oushuai.animal.bean.Video" >
+    update video
+    <set >
+      <if test="videoName != null" >
+        video_name = #{videoName,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null" >
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="albumId != null" >
+        album_id = #{albumId,jdbcType=INTEGER},
+      </if>
+      <if test="videoDate != null" >
+        video_date = #{videoDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recommend != null" >
+        recommend = #{recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="readTimes != null" >
+        read_times = #{readTimes,jdbcType=INTEGER},
+      </if>
+    </set>
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.oushuai.animal.bean.Video" >
+    update video
+    set video_name = #{videoName,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      album_id = #{albumId,jdbcType=INTEGER},
+      video_date = #{videoDate,jdbcType=TIMESTAMP},
+      recommend = #{recommend,jdbcType=VARCHAR},
+      read_times = #{readTimes,jdbcType=INTEGER}
+    where video_id = #{videoId,jdbcType=INTEGER}
+  </update>
+</mapper>
