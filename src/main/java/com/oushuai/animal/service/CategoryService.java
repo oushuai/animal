@@ -35,4 +35,14 @@ public class CategoryService {
         criteria.andCateIdEqualTo(cateId);
         return categoryMapper.deleteByExample(example);
     }
+    public Category getInfoById(int cateId) {
+        CategoryExample example = new CategoryExample();
+        CategoryExample.Criteria criteria = example.createCriteria();
+        criteria.andCateIdEqualTo(cateId);
+        List<Category> categories = categoryMapper.selectByExample(example);
+        if (categories.size() > 0) {
+            return categories.get(0);
+        }
+        return null;
+    }
 }
