@@ -3,6 +3,7 @@ package com.oushuai.animal.service;
 import com.oushuai.animal.bean.Album;
 import com.oushuai.animal.bean.AlbumExample;
 import com.oushuai.animal.bean.Category;
+import com.oushuai.animal.bean.Photo;
 import com.oushuai.animal.bean.vo.AblumVo;
 import com.oushuai.animal.dao.AlbumMapper;
 import org.apache.commons.lang.StringUtils;
@@ -29,7 +30,9 @@ public class AlbumService {
         int insert = albumMapper.insertSelective(album);
         return insert;
     }
-
+    public List<Album> list1(){
+        return  albumMapper.selectByExample(null);
+    }
     /**
      * 更新相册
      *

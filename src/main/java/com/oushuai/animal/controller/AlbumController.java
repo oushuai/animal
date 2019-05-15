@@ -1,5 +1,7 @@
 package com.oushuai.animal.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.oushuai.animal.bean.Album;
 import com.oushuai.animal.bean.Msg;
 import com.oushuai.animal.service.AlbumService;
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  *
@@ -18,9 +22,13 @@ public class AlbumController {
     @Autowired
     private AlbumService albumService;
 
-    @GetMapping("/list")
-    public String list(Album album,Model model){
-        model.addAttribute("list",albumService.getList(album));
+    @RequestMapping("/list")
+    public String list(@RequestParam(value="pn",defaultValue = "1")Integer pn,Album album,Model model){
+        PageHelper.startPage(pn,5);
+        List<Album> albums = albumService.list1();
+        model.addAttribute("list",albums);
+        PageInfo page=new PageInfo(albums,5);
+        model.addAttribute("pageInfo", page);
         return "album/list";
     }
     @PostMapping("/edit")

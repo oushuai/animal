@@ -13,11 +13,7 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
-	<!--配置视图解析器，方便页面返回  -->
-	<!--<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-		<!--<property name="prefix" value="/WEB-INF/view/"></property>-->
-		<!--<property name="suffix" value=".html"></property>-->
-	<!--</bean>-->
+
 	<bean id="templateResolver"
 		  class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
 		<property name="prefix" value="/WEB-INF/view/"/>
@@ -44,4 +40,5 @@
 	<mvc:annotation-driven/>
     <mvc:resources location="/WEB-INF/css/" mapping="/css/**"/>
     <mvc:resources location="/WEB-INF/js/" mapping="/js/**"/>
+	<mvc:resources location="/WEB-INF/fonts/" mapping="/fonts/**"/>
 </beans>
