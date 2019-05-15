@@ -6,6 +6,8 @@ import com.oushuai.animal.dao.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,5 +24,24 @@ public class SysUserService {
 
     public List<SysUser> list() {
         return sysUserMapper.selectByExample(new SysUserExample());
+    }
+    public SysUser login(String userName,String password){
+        SysUserExample example= new SysUserExample();
+        SysUserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserNameEqualTo(userName).andPasswordEqualTo(password);
+        List<SysUser> sysUsers = sysUserMapper.selectByExample(example);
+        if(sysUsers!=null)
+        {
+            if(sysUsers.size()==1){
+                 return sysUsers.get(0);
+            }
+            return null;
+        }
+        return null;
+    }
+    public void register(SysUser sysUser){
+        sysUser.setCreateTime(new Date());
+        sysUser.setUpdateTime(new Date());
+        sysUserMapper.insert(sysUser);
     }
 }

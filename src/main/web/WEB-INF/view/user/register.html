@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <script src="/js/jquery-3.3.1.min.js"></script>
+
+    <script src="/js/bootstrap.js"></script>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+        <form class="form-signin" action="/user/submitregister" method="post">
+            <h2 class="form-signin-heading">用户注册</h2>
+            <label for="inputEmail" class="sr-only">用户名</label>
+            <input type="text" id="inputEmail"  class="form-control" th:name="userName" placeholder="用户名" required autofocus>
+            <br>
+            <label for="inputPassword" class="sr-only">密码</label>
+            <input type="password" id="inputPassword" th:name="password" class="form-control" placeholder="密码" required>
+            <br>
+            <input type="password"  id="doublePassword" class="form-control" placeholder="确认密码" required>
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+        </form>
+        </div>
+        <div class="col-md-4"></div>
+        </div>
+    </div> <!-- /container -->
+
+</div>
+</body>
+</html>
