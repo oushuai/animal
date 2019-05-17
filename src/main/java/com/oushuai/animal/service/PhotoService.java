@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.oushuai.animal.bean.Photo;
 import com.oushuai.animal.bean.PhotoExample;
+import com.oushuai.animal.dao.AlbumMapper;
 import com.oushuai.animal.dao.PhotoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ import java.util.List;
 public class PhotoService {
     @Resource
     PhotoMapper photoMapper;
+    @Resource
+    AlbumMapper albumMapper;
 
     /**
      * 根据相册id查询图片列表
@@ -38,10 +41,13 @@ public class PhotoService {
       //   PageHelper.startPage(pageIndex,pageSize, true);
         List<Photo> list= photoMapper.selectByExample(example);
         return list;
-//        if(list!=null){
-//            Page<Photo> page=(Page<Photo>)list;
-//            return page;
-//        }
-//        return null;
+
+    }
+    public void insert(Photo photo){
+        photoMapper.insert(photo);
+    }
+    public boolean delete(Integer photoId,Integer albumId){
+        int result=  photoMapper.deleteByPrimaryKey(photoId);
+        return result<=0?true:false;
     }
 }

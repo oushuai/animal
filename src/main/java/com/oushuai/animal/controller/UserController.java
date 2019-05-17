@@ -27,6 +27,7 @@ public class UserController {
 
     @Autowired
     private SysUserService sysUserService;
+
     @RequestMapping("/login")
     public String loginIndex(){
         return "user/login";

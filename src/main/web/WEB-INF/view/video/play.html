@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>视频播放</title>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" />
+    <!--布局样式，意义不大-->
+    <link rel="stylesheet" href="/css/demo.css" />
+    <!--核心样式-->
+    <link rel="stylesheet" href="/css/ckin.css" />
+</head>
+<body style="min-width:992px;font-size: 14px;">
+<section class="demo-section demo-section--light" id="demo">
+    <div class="container" >
+        <video poster="/images/3.png" src="/videos/cat.mp4" data-ckin="default" data-overlay="1" width="640" height="320">您的浏览器不支持 video 标签。</video>
+        <!--<video th:poster="/images/3.png" th:src="/videos/cat.mp4" data-ckin="default" data-overlay="1" ></video>-->
+        <!--<video th:poster="${videoResourceNow.vidResPic}" th:src="${videoResourceNow.vidResUrl}" data-ckin="default" data-overlay="1" ></video>-->
+    </div>
+</section>
+<script src="/js/ckin.js"></script>
+</body>
+</html>

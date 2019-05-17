@@ -25,7 +25,7 @@ public class AlbumController {
     @RequestMapping("/list")
     public String list(@RequestParam(value="pn",defaultValue = "1")Integer pn,Album album,Model model){
         PageHelper.startPage(pn,5);
-        List<Album> albums = albumService.list1();
+        List<Album> albums = albumService.list();
         model.addAttribute("list",albums);
         PageInfo page=new PageInfo(albums,5);
         model.addAttribute("pageInfo", page);
@@ -45,6 +45,11 @@ public class AlbumController {
     public String edit(int id){
         albumService.del(id);
         return "redirect:/";
+    }
+    @RequestMapping("/getAlbums")
+    @ResponseBody
+    public List<Album> getAlbums(){
+        return albumService.list();
     }
 
 }

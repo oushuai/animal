@@ -93,11 +93,11 @@
     select 
     <include refid="Base_Column_List" />
     from photo
-    where id = #{id,jdbcType=INTEGER}
+    where photo_id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from photo
-    where id = #{id,jdbcType=INTEGER}
+    where photo_id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.oushuai.animal.bean.PhotoExample" >
     delete from photo
@@ -193,7 +193,7 @@
     update photo
     <set >
       <if test="record.id != null" >
-        id = #{record.id,jdbcType=INTEGER},
+        photo_id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.photoName != null" >
         photo_name = #{record.photoName,jdbcType=VARCHAR},
@@ -287,6 +287,6 @@
       is_delete = #{isDelete,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
+    where photo_id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

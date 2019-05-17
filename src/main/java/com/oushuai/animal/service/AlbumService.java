@@ -30,7 +30,7 @@ public class AlbumService {
         int insert = albumMapper.insertSelective(album);
         return insert;
     }
-    public List<Album> list1(){
+    public List<Album> list(){
         return  albumMapper.selectByExample(null);
     }
     /**
