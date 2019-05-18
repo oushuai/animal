@@ -12,7 +12,7 @@
 		<!--只扫描控制器。  -->
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
-	
+	<context:property-placeholder location="classpath:*.properties" />
 
 	<bean id="templateResolver"
 		  class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">

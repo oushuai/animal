@@ -33,7 +33,9 @@ public class PhotoService {
     public List<Photo> list1(){
         return  photoMapper.selectByExample(null);
     }
-
+    public  Photo getPhoto(Integer photoId){
+        return photoMapper.selectByPrimaryKey(photoId);
+    }
     public List<Photo> list(Integer albumId) {
         PhotoExample example=new PhotoExample();
         PhotoExample.Criteria criteria=example.createCriteria();
@@ -48,6 +50,10 @@ public class PhotoService {
     }
     public boolean delete(Integer photoId,Integer albumId){
         int result=  photoMapper.deleteByPrimaryKey(photoId);
+        return result<=0?true:false;
+    }
+    public boolean update(Photo photo){
+        int result  = photoMapper.updateByPrimaryKeySelective(photo);
         return result<=0?true:false;
     }
 }

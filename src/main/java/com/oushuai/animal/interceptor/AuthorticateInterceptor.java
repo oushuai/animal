@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthorticateInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        SysUser sysUser =  (SysUser)request.getSession().getAttribute("sysUser");
-        if(sysUser==null){
-            response.sendRedirect("/user/login");
+        String returnUrl = request.getParameter("returnUrl");
+        SysUser sysUser = (SysUser) request.getSession().getAttribute("sysUser");
+        if (sysUser == null) {
+            response.sendRedirect("/user/login?returnUrl="+request.getRequestURI());
             return false;
         }
         return true;

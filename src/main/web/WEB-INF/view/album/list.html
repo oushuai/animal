@@ -31,7 +31,7 @@
                 <tr th:each="album:${list}">
                     <td th:text="${album.albumName}">1</td>
                     <td><img th:src="${album.albumUrl}" th:width="60" th:height="60" th:alt="${album.albumName}"></td>
-                    <td th:text="${album.createTime}">1</td>
+                    <td th:text="${#dates.format(album.createTime,'yyyy-MM-dd')}"></td>
                     <th>
                         <button class="btn btn-info btn-sm" onclick="viewAlbum(this)" th:attr="data-album=${album.id}">
                             <span class="glyphicon glyphicon-picture" aria-hidden="true"></span>

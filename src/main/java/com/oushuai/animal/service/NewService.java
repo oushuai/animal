@@ -5,9 +5,10 @@ import com.oushuai.animal.bean.NewExample;
 import com.oushuai.animal.dao.NewMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class NewService {
 
     @Autowired

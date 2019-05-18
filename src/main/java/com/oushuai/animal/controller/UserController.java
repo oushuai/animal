@@ -42,6 +42,10 @@ public class UserController {
         if(user!=null){
             HttpSession session = request.getSession();
             session.setAttribute("sysUser",user);
+            String returnUrl=request.getParameter("returnUrl");
+            if(!StringUtils.isNotBlank(returnUrl)){
+                return "redirect:"+returnUrl;
+            }
             return "redirect:/";
         }else{
             model.addAttribute("loginError","登录失败，用户名或密码错误");
