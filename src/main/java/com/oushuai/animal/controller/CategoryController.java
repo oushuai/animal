@@ -45,4 +45,9 @@ public class CategoryController {
         int result = categoryService.delete(id);
         return  Msg.success();
     }
+    @RequestMapping("/category/getcatelist")
+    @ResponseBody
+    public List<Category> getCateList(){
+        return categoryService.list();
+    }
 }

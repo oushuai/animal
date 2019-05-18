@@ -13,7 +13,9 @@ public class CategoryService {
     @Resource
     private CategoryMapper categoryMapper;
     public List<Category> list(){
-        return categoryMapper.selectByExample(null);
+        CategoryExample example=new CategoryExample();
+        example.isDistinct();
+        return categoryMapper.selectByExample(example);
     }
     public int update(int cateId,String cateName){
         Category category=new Category();

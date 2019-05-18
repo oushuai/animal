@@ -27,11 +27,13 @@ public class AlbumService {
      * @return
      */
     public int save(Album album) {
-        int insert = albumMapper.insertSelective(album);
+        int insert = albumMapper.insert(album);
         return insert;
     }
     public List<Album> list(){
-        return  albumMapper.selectByExample(null);
+        AlbumExample example =new AlbumExample();
+        example.setOrderByClause("update_time desc");
+        return  albumMapper.selectByExample(example);
     }
     /**
      * 更新相册

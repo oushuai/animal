@@ -30,14 +30,17 @@ public class PhotoService {
      * @return
      */
 
-    public List<Photo> list1(){
-        return  photoMapper.selectByExample(null);
+    public List<Photo> list(){
+        PhotoExample example=new PhotoExample();
+        example.setOrderByClause(" update_time desc");
+        return  photoMapper.selectByExample(example);
     }
     public  Photo getPhoto(Integer photoId){
         return photoMapper.selectByPrimaryKey(photoId);
     }
     public List<Photo> list(Integer albumId) {
         PhotoExample example=new PhotoExample();
+        example.setOrderByClause(" update_time desc");
         PhotoExample.Criteria criteria=example.createCriteria();
         criteria.andAlbumIdEqualTo(albumId);
       //   PageHelper.startPage(pageIndex,pageSize, true);
@@ -56,4 +59,22 @@ public class PhotoService {
         int result  = photoMapper.updateByPrimaryKeySelective(photo);
         return result<=0?true:false;
     }
+    public boolean delete(Photo photo){
+       int result=  photoMapper.deleteByPrimaryKey(photo.getId());
+       return result<=0?true:false;
+    }
+    public boolean delete(List<Photo> photos){
+        if(photos==null||photos.size()==0)return true;
+
+        try {
+            photos.forEach(p->{
+                delete(p);
+            });
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

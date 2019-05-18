@@ -40,4 +40,19 @@ public class VideoService {
         int result = videoMapper.deleteByPrimaryKey(videoId);
         return result <= 0 ? true : false;
     }
+    public boolean delete(Video video){
+        return delete(video.getVideoId());
+    }
+    public boolean delete (List<Video> videos){
+        if(videos==null||videos.size()==0)return true;
+        try {
+            videos.forEach(v->{
+                delete(v);
+            });
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

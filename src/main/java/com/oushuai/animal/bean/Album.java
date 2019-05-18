@@ -100,6 +100,7 @@ public class Album {
     }
 
     public void setUpdateTime(Date updateTime) {
+        if(updateTime==null)this.updateTime=new Date();
         this.updateTime = updateTime;
     }
 }

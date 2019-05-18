@@ -39,97 +39,106 @@ public class PhotoController {
     @Value("${image.context.address}")
     private String imageContext;
 
-    @RequestMapping(value="/list/{albumId}",method=RequestMethod.GET)
-    public String list(@PathVariable("albumId")Integer albumId,@RequestParam(value="pn",defaultValue = "1")Integer pn,Model model) {
-       PageHelper.startPage(pn,5);
-        List<Photo> photo = photoService.list(albumId);
-        Album album=albumService.getInfo(albumId);
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public String list(@RequestParam(value = "albumId", required = false) Integer albumId, @RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) {
+        PageHelper.startPage(pn, 5);
+        List<Photo> photo = null;
+        if (albumId == null) {
+            photo = photoService.list();
+        } else {
+            photo=photoService.list(albumId);
+            Album album = albumService.getInfo(albumId);
+            model.addAttribute("album", album);
+        }
         model.addAttribute("list", photo);
-        PageInfo page=new PageInfo(photo,5);
-        model.addAttribute("album",album);
+        PageInfo page = new PageInfo(photo, 5);
+
         model.addAttribute("pageInfo", page);
-        return  "photos/list";
+        return "photos/list";
     }
+
     @RequestMapping("/delete")
     @ResponseBody
-    public Msg delete(Integer photoId,Integer albumId){
-        boolean del= photoService.delete(photoId,albumId);
-        return del?Msg.success():Msg.fail();
+    public Msg delete(Integer photoId, Integer albumId) {
+        boolean del = photoService.delete(photoId, albumId);
+        return del ? Msg.success() : Msg.fail();
     }
-    @RequestMapping(value="/add",method=RequestMethod.GET)
-    public String showAdd(@RequestParam(value="albumId",required = false) Integer albumId,Model model){
-        model.addAttribute("albumId",albumId);
+
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    public String showAdd(@RequestParam(value = "albumId", required = false) Integer albumId, Model model) {
+        model.addAttribute("albumId", albumId);
         return "photos/add";
     }
-    @RequestMapping(value="/upload",method = RequestMethod.POST)
-    public String add(Photo photo,MultipartFile file,HttpServletRequest reqeust)
-    {
-        Msg uploadResult=uploadPhoto(file,reqeust);
-        if(uploadResult.getCode()==0){
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public String add(Photo photo, MultipartFile file, HttpServletRequest reqeust) {
+        Msg uploadResult = uploadPhoto(file, reqeust);
+        if (uploadResult.getCode() == 0) {
             photo.setCreateTime(new Date());
             photo.setPhotoDate(new Date());
-            photo.setIsRecommend((byte)0);
-            photo.setIsDelete((byte)0);
+            photo.setIsRecommend((byte) 0);
+            photo.setIsDelete((byte) 0);
             photo.setPhotoUrl(uploadResult.getMsg());
             photoService.insert(photo);
-            return "redirect:/photo/list/"+photo.getAlbumId();
-        }else{
-            return "redirect:/photo/add?albumId="+photo.getAlbumId();
+            return "redirect:/photo/list?albumId=" + photo.getAlbumId();
+        } else {
+            return "redirect:/photo/add?albumId=" + photo.getAlbumId();
         }
     }
-    @RequestMapping(value="/edit",method=RequestMethod.GET)
-    public String showe(@RequestParam(value="albumId",required = true) Integer albumId,@RequestParam(value="photoId",required = true) Integer photoId,Model model){
-        Photo photo=photoService.getPhoto(photoId);
-        model.addAttribute("photo",photo);
-        model.addAttribute("albumId",albumId);
+
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public String showe(@RequestParam(value = "albumId", required = true) Integer albumId, @RequestParam(value = "photoId", required = true) Integer photoId, Model model) {
+        Photo photo = photoService.getPhoto(photoId);
+        model.addAttribute("photo", photo);
+        model.addAttribute("albumId", albumId);
         return "photos/edit";
     }
-    @RequestMapping(value="/doedit",method = RequestMethod.POST)
-    public String edit(Photo photo)
-    {
-           if( photoService.update(photo))
-           {
-               return "redirect:/photo/list/"+photo.getAlbumId();
-           } else{
-            return "redirect:/photo/edit?albumId="+photo.getAlbumId()+"&photoId="+photo.getId();
+
+    @RequestMapping(value = "/doedit", method = RequestMethod.POST)
+    public String edit(Photo photo) {
+        photo.setUpdateTime(new Date());
+        if (photoService.update(photo)) {
+            return "redirect:/photo/list?albumId=" + photo.getAlbumId();
+        } else {
+            return "redirect:/photo/edit?albumId=" + photo.getAlbumId() + "&photoId=" + photo.getId();
         }
     }
 
-    public Msg uploadPhoto(MultipartFile  file, HttpServletRequest reqeust)  {
+    public Msg uploadPhoto(MultipartFile file, HttpServletRequest reqeust) {
 
-        if(file==null||file.getSize()==0)return Msg.fail();
-        InputStream stream=null;
+        if (file == null || file.getSize() == 0) return Msg.fail();
+        InputStream stream = null;
         try {
-             stream =  file.getInputStream();
+            stream = file.getInputStream();
         } catch (IOException e) {
             return Msg.fail();
         }
-        String fileName=file.getOriginalFilename();
-        String ext=fileName.split("\\.")[1];
-        fileName= MessageFormat.format("{0}.{1}",UUID.randomUUID(),ext);
-        uploadRootServer= reqeust.getServletContext().getRealPath("/WEB-INF/images/");
-        File root=new File(uploadRootServer);
-        if(!root.exists()){
+        String fileName = file.getOriginalFilename();
+        String ext = fileName.split("\\.")[1];
+        fileName = MessageFormat.format("{0}.{1}", UUID.randomUUID(), ext);
+        uploadRootServer = reqeust.getServletContext().getRealPath("/WEB-INF/images/");
+        File root = new File(uploadRootServer);
+        if (!root.exists()) {
             root.mkdirs();
         }
 
-        File savedFile=new File(uploadRootServer,fileName);
-        FileOutputStream fis= null;
+        File savedFile = new File(uploadRootServer, fileName);
+        FileOutputStream fis = null;
         try {
             fis = new FileOutputStream(savedFile);
-            byte[] buffer=new byte[1024];
-            int len= 0;
-            while( (len=stream.read(buffer))!=-1){
-                fis.write(buffer,0,len);
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = stream.read(buffer)) != -1) {
+                fis.write(buffer, 0, len);
             }
-            Msg msg=new Msg();
-            msg.setMsg(MessageFormat.format("{0}{1}",imageContext,fileName));
+            Msg msg = new Msg();
+            msg.setMsg(MessageFormat.format("{0}{1}", imageContext, fileName));
             return msg;
         } catch (Exception e) {
             e.printStackTrace();
             return Msg.fail();
-        }finally {
-            if(fis!=null){
+        } finally {
+            if (fis != null) {
                 try {
                     fis.close();
                 } catch (IOException e) {

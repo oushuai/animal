@@ -20,6 +20,8 @@ public class AblumVo {
 
     private Integer photoCount;
 
+    private Integer videoCount;
+
     private Byte sortNo;
 
     private Byte status;
@@ -122,5 +124,13 @@ public class AblumVo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getVideoCount() {
+        return videoCount;
+    }
+
+    public void setVideoCount(Integer videoCount) {
+        this.videoCount = videoCount;
     }
 }

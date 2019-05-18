@@ -14,68 +14,112 @@
 <div th:include="top.html"></div>
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4">
-            <button class="btn btn-primary"  onclick="goAdd(this)" th:attr="data-album=${album.id}">新增图片</button>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">图片管理  <span th:if="${album!=null}" th:text="'> 所属相册:'+${album.albumName}"></b><h1></h1></span></h3>
+
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <button class="btn btn-primary" th:if="${album!=null}"  onclick="goAdd(this)" th:attr="data-album=${album.id}">新增图片</button>
+                    <button class="btn btn-primary" th:if="${album==null}" onclick="goAdd(this)" >新增图片</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <tr>
+
+                            <th>相册名称</th>
+                            <th >封面图</th>
+                            <th>创建时间</th>
+                            <th>更新时间</th>
+                            <th>是否推荐</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr th:each="photo:${list}">
+                            <td th:text="${photo.photoName}"></td>
+                            <td><img th:src="${photo.photoUrl}" th:width="60" th:height="60" th:alt="${photo.photoName}"></td>
+                            <td th:text="${#dates.format(photo.createTime,'yyyy-MM-dd')}"></td>
+                            <td th:text="${#dates.format(photo.updateTime,'yyyy-MM-dd')}"></td>
+                            <td th:if="${photo.isRecommend==0}">否</td>
+                            <td th:if="${photo.isRecommend==1}">是</td>
+                            <!--  <th th:text="${photo.id}"></th>-->
+                            <th>
+                                <button class="btn btn-primary btn-sm" onclick="goEdit(this)" th:attr="data-album=${photo.albumId},data-photo=${photo.id}">
+                                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                    编辑
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="del(this);" th:attr="data-photo=${photo.id},data-album=${photo.albumId}">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    删除
+                                </button>
+
+                            </th>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div th:if="${album==null}" class="col-md-6">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li><a href="/photo/list?pn=1">首页</a></li>
+                        <li th:if="${pageInfo.pageNum} gt 1">
+                            <a th:href="'/photo/list?pn='+${pageInfo.pageNum-1}"
+                                                                aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+                        </a></li>
+                    </ul>
+                    <ul class="pagination" th:each="page_Num:${pageInfo.navigatepageNums}">
+                        <li class="active" th:if="${page_Num == pageInfo.pageNum }">
+                            <a href="#" th:if="${page_Num == pageInfo.pageNum }"> <span th:text="${pageInfo.pageNum }"></span></a></li>
+
+                        <li><a th:href="'/photo/list?pn='+${page_Num}"  th:if="${page_Num != pageInfo.pageNum }"> <span th:text="${page_Num }"></span></a></li>
+                    </ul>
+                    <ul class="pagination">
+                        <li th:if="${pageInfo.pageNum} lt ${pageInfo.pages }">
+                            <a th:href="'/photo/list?pn='+${pageInfo.pageNum+1}"
+                                                                             aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+                        </a></li>
+                        <li><a th:href="'/photo/list?pn='+${pageInfo.pages}">末页</a></li>
+
+                    </ul>
+                </nav>
+            </div>
+            <div th:if="${album!=null}" class="col-md-6">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            <a th:href="'/photo/list?albumId='+${album.id}+'&pn=1'">首页</a>
+                        </li>
+                        <li th:if="${pageInfo.pageNum} gt 1">
+                            <a  th:href="'/photo/list?albumId='+${album.id}+'&n='+${pageInfo.pageNum-1}" aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a>
+                        </li>
+                    </ul>
+                    <ul class="pagination" th:each="page_Num:${pageInfo.navigatepageNums}">
+                        <li class="active" th:if="${page_Num == pageInfo.pageNum }"><a href="#" th:if="${page_Num == pageInfo.pageNum }"> <span th:text="${pageInfo.pageNum }"></span></a></li>
+                        <li>
+                            <a  th:href="'/photo/list?albumId='+${album.id}+'&pn='+${page_Num}"  th:if="${page_Num != pageInfo.pageNum }"> <span th:text="${page_Num }"></span></a>
+                        </li>
+                    </ul>
+                    <ul class="pagination">
+                        <li th:if="${pageInfo.pageNum} lt ${pageInfo.pages }">
+                            <a th:href="'/photo/list?albumId='+${album.id}+'&pn='+${pageInfo.pageNum+1}" aria-label="Next"> <span aria-hidden="true">&raquo;</span></a></li>
+                        <li>
+                            <a  th:href="'/photo/list?albumId='+${album.id}+'&pn='+${pageInfo.pages}">末页</a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <table class="table table-hover">
-                <tr>
-
-                    <th>相册名称</th>
-                    <th >封面图</th>
-                    <th>创建时间</th>
-                    <th>是否推荐</th>
-                    <th>操作</th>
-                </tr>
-                <tr th:each="photo:${list}">
-                    <td th:text="${album.albumName}">1</td>
-                    <td><img th:src="${photo.photoUrl}" th:width="60" th:height="60" th:alt="${photo.photoName}"></td>
-                    <td th:text="${#dates.format(photo.photoDate,'yyyy-MM-dd')}"></td>
-                    <td th:if="${photo.isRecommend==0}">否</td>
-                    <td th:if="${photo.isRecommend==1}">是</td>
-                  <!--  <th th:text="${photo.id}"></th>-->
-                    <th>
-                        <button class="btn btn-primary btn-sm" onclick="goEdit(this)" th:attr="data-album=${album.id},data-photo=${photo.id}">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                            编辑
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="del(this);" th:attr="data-photo=${photo.id},data-album=${photo.albumId}">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                            删除
-                        </button>
-
-                    </th>
-                </tr>
-
-            </table>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <li><a th:href="'/photo/list/'+${albumId}+'?pn=1'">首页</a></li>
-                <li th:if="${pageInfo.pageNum} gt 1"><a th:href="'/photo/list/{albumId}?pn='+${pageInfo.pageNum-1}"
-                                                        aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-                </a></li>
-            </ul>
-            <ul class="pagination" th:each="page_Num:${pageInfo.navigatepageNums}">
-                <li class="active" th:if="${page_Num == pageInfo.pageNum }"><a href="#" th:if="${page_Num == pageInfo.pageNum }"> <span th:text="${pageInfo.pageNum }"></span></a></li>
 
 
-                <li><a th:href="'/photo/list/'+${albumId}+'?pn='+${page_Num}"  th:if="${page_Num != pageInfo.pageNum }"> <span th:text="${page_Num }"></span></a></li>
-            </ul>
-            <ul class="pagination">
-                <li th:if="${pageInfo.pageNum} lt ${pageInfo.pages }"><a th:href="'/photo/list/'+${albumId}+'?pn='+${pageInfo.pageNum+1}"
-                                                                         aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-                </a></li>
-                <li><a th:href="'/photo/list/'+${albumId}+'?pn='+${pageInfo.pages}">末页</a></li>
-
-            </ul>
-        </nav>
-    </div>
 </div>
 <script>
     function del(_this){
@@ -86,7 +130,7 @@
             success:function(result){
                 if(result.code==0){
                     alert("删除成功！");
-                    document.location.href="/photo/list/"+albumId;
+                    document.location.href="/photo/list?albumId="+albumId;
 ;                }else{
                     alert("删除失败！");
                 }
@@ -94,7 +138,12 @@
         })
     }
     function goAdd(_this){
-        document.location.href="/photo/add?albumId="+$(_this).attr("data-album");
+        if($(_this).attr("data-album")){
+            document.location.href="/photo/add?albumId="+$(_this).attr("data-album");
+        }else{
+            document.location.href="/photo/add";
+        }
+
     }
     function goEdit(_this){
         document.location.href="/photo/edit?albumId="+$(_this).attr("data-album")+"&photoId="+$(_this).attr("data-photo");
