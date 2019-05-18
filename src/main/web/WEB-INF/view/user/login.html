@@ -63,5 +63,27 @@
     </div> <!-- /container -->
 
 </div>
+<script>
+    $(function(){
+        var locationURL = location.href;
+        // URL中附带了跳转路径
+        var forwardIndex = locationURL.indexOf("returnUrl");
+        if (forwardIndex != -1) {
+            var forwardURL = locationURL.substring(forwardIndex);
+            var action= $("form").attr("action");
+            // 说明已经有了跳转路径
+            if (action.indexOf("?") != -1) {
+                action += "&" + forwardURL;
+            } else {
+                action += "?" + forwardURL;
+            }
+            $("form").attr("action",action);
+
+        }
+
+    });
+
+
+</script>
 </body>
 </html>

@@ -12,10 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import sun.nio.cs.ext.HKSCS;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -43,8 +46,12 @@ public class UserController {
             HttpSession session = request.getSession();
             session.setAttribute("sysUser",user);
             String returnUrl=request.getParameter("returnUrl");
-            if(!StringUtils.isNotBlank(returnUrl)){
-                return "redirect:"+returnUrl;
+            if(StringUtils.isNotBlank(returnUrl)){
+                try {
+                    return "redirect:"+ URLDecoder.decode(returnUrl,"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    return "redirect:/";
+                }
             }
             return "redirect:/";
         }else{

@@ -6,6 +6,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 
 public class AuthorticateInterceptor extends HandlerInterceptorAdapter {
     @Override
@@ -13,7 +14,7 @@ public class AuthorticateInterceptor extends HandlerInterceptorAdapter {
         String returnUrl = request.getParameter("returnUrl");
         SysUser sysUser = (SysUser) request.getSession().getAttribute("sysUser");
         if (sysUser == null) {
-            response.sendRedirect("/user/login?returnUrl="+request.getRequestURI());
+            response.sendRedirect("/user/login?returnUrl="+ URLEncoder.encode(request.getRequestURI(),"UTF-8"));
             return false;
         }
         return true;
