@@ -6,9 +6,13 @@ import com.github.pagehelper.PageInfo;
 import com.oushuai.animal.bean.Album;
 import com.oushuai.animal.bean.Msg;
 import com.oushuai.animal.bean.Photo;
+import com.oushuai.animal.bean.vo.PhotoVo;
 import com.oushuai.animal.service.AlbumService;
 import com.oushuai.animal.service.CategoryService;
 import com.oushuai.animal.service.PhotoService;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,16 +49,37 @@ public class PhotoController {
         PageHelper.startPage(pn, 5);
         List<Photo> photo = null;
         if (albumId == null) {
-            photo = photoService.list();
+                List<PhotoVo> photoVos=new ArrayList<>();
+                photo = photoService.list();
+                if(photo!=null){
+                    photo.forEach(p->{
+                        Album album=albumService.getInfo(p.getAlbumId());
+                        PhotoVo photoVo=new PhotoVo();
+                        try {
+                            BeanUtilsBean.getInstance().getConvertUtils().register(new DateConverter(new Date()), Date.class);
+                            BeanUtils.copyProperties(photoVo,p);
+                            photoVo.setAlbumName(album.getAlbumName());
+                            photoVos.add(photoVo);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+            model.addAttribute("list", photoVos);
+            PageInfo page = new PageInfo(photoVos, 5);
+
+            model.addAttribute("pageInfo", page);
         } else {
             photo=photoService.list(albumId);
             Album album = albumService.getInfo(albumId);
             model.addAttribute("album", album);
+            model.addAttribute("list", photo);
+            PageInfo page = new PageInfo(photo, 5);
+            model.addAttribute("pageInfo", page);
         }
-        model.addAttribute("list", photo);
-        PageInfo page = new PageInfo(photo, 5);
 
-        model.addAttribute("pageInfo", page);
         return "photos/list";
     }
 

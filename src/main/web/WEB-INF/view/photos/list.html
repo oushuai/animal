@@ -34,6 +34,7 @@
 
                             <th>相册名称</th>
                             <th >封面图</th>
+                            <th th:if="${album==null}">类别</th>
                             <th>创建时间</th>
                             <th>更新时间</th>
                             <th>是否推荐</th>
@@ -42,6 +43,7 @@
                         <tr th:each="photo:${list}">
                             <td th:text="${photo.photoName}"></td>
                             <td><img th:src="${photo.photoUrl}" th:width="60" th:height="60" th:alt="${photo.photoName}"></td>
+                            <td th:if="${album==null}" th:text="${photo.albumName}"></td>
                             <td th:text="${#dates.format(photo.createTime,'yyyy-MM-dd')}"></td>
                             <td th:text="${#dates.format(photo.updateTime,'yyyy-MM-dd')}"></td>
                             <td th:if="${photo.isRecommend==0}">否</td>
