@@ -17,13 +17,17 @@ public class VideoService {
     VideoMapper videoMapper;
 
     public List<Video> list() {
-        return videoMapper.selectByExample(null);
+        VideoExample example = new VideoExample();
+        example.setOrderByClause("video_date desc");
+        return videoMapper.selectByExample(example);
     }
 
 
     public List<Video> list(Integer albumId) {
         VideoExample example = new VideoExample();
+        example.setOrderByClause("video_date desc");
         VideoExample.Criteria criteria = example.createCriteria();
+
         criteria.andAlbumIdEqualTo(albumId);
         //   PageHelper.startPage(pageIndex,pageSize, true);
         List<Video> list = videoMapper.selectByExample(example);
@@ -34,7 +38,9 @@ public class VideoService {
     public void insert(Video video) {
         videoMapper.insert(video);
     }
-
+    public  Video getVideo(Integer videoId){
+        return videoMapper.selectByPrimaryKey(videoId);
+    }
 
     public boolean delete(Integer videoId) {
         int result = videoMapper.deleteByPrimaryKey(videoId);
@@ -54,5 +60,10 @@ public class VideoService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public boolean update(Video video) {
+        int result  = videoMapper.updateByPrimaryKeySelective(video);
+        return result<=0?true:false;
     }
 }

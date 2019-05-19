@@ -87,7 +87,7 @@ public class PhotoController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String showe(@RequestParam(value = "albumId", required = true) Integer albumId, @RequestParam(value = "photoId", required = true) Integer photoId, Model model) {
+    public String showedit(@RequestParam(value = "albumId", required = true) Integer albumId, @RequestParam(value = "photoId", required = true) Integer photoId, Model model) {
         Photo photo = photoService.getPhoto(photoId);
         model.addAttribute("photo", photo);
         model.addAttribute("albumId", albumId);
